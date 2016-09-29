@@ -1,0 +1,50 @@
+<div class="container">
+    <main id="content" class="widget-login-container" role="main">
+        <div class="row">
+            <div class="col-xl-4 col-md-6 col-xs-10 offset-xl-4 offset-md-3 offset-xs-1">
+                <h5 class="widget-login-logo animated fadeInUp">
+                    <i class="fa fa-circle text-gray"></i> INTRANET APP
+                    <i class="fa fa-circle text-warning"></i>
+                </h5>
+                <section class="widget widget-login animated fadeInUp">
+                    <header>
+                        <h3>Inicia Sesión!</h3>
+                    </header>
+                    <div class="widget-body">
+                        <form class="login-form mt-lg">
+                            <div class="form-group">
+                                <input type="text" [(ngModel)]="login.username" name="username" class="form-control" id="exampleInputEmail1" placeholder="Username">
+                            </div>
+                            <div class="form-group">
+                                <input class="form-control" [(ngModel)]="login.clave" name="clave" id="pswd" type="password" placeholder="Password">
+                            </div>
+                            <div class="clearfix">
+                                <div class="btn-toolbar pull-xs-right m-t-1">
+                                    <a class="btn btn-inverse btn-sm" (keyup.enter)="doLogin()" (click)="doLogin()">Login</a>
+                                </div>
+                            </div>
+                            <div class="row m-t-1">
+                                <div class="col-md-6 push-md-6">
+                                    <div class="clearfix">
+                                        <div class="abc-checkbox widget-login-info pull-xs-right">
+                                            <input type="checkbox" id="checkbox1" value="1">
+                                            <label for="checkbox1">Mantener sesión </label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div *ngIf="errorLogin">
+                                <div class="alert alert-danger">
+                                    <strong>Error!</strong> Usuario o contraseña no coinciden!
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </section>
+            </div>
+        </div>
+    </main>
+    <footer class="page-footer">
+        2016 &copy; OTIN.
+    </footer>
+</div>

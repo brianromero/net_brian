@@ -1,0 +1,82 @@
+<h1 class="page-title">SEGURIDAD - <span class="fw-semi-bold">GESTION DE SISTEMAS</span></h1>
+
+<div class="row">
+    <div class="col-lg-12">
+        <section class="widget">
+            <button (click)="emptyModel()" data-toggle="modal" data-target="#modal_add_sistema" class="btn btn-danger width-100 mb-xs" role="button"><i class="glyphicon glyphicon-plus"></i>Agregar</button>
+            <div class="widget-body">
+                <table class="table table-bordered table-lg mt-lg mb-0">
+                    <thead>
+                        <tr>
+                            <th class="hidden-xs-down">ID SISTEMA</th>
+                            <th>Descripcion</th>
+                            <th>Nombre</th>
+                            <th class="hidden-xs-down">Activo</th>
+                            <th class="hidden-xs-down">Usuario creación</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let sistema of sistemas_list">
+                            <td>{{ sistema.id_sistema }}</td>
+                            <td>{{ sistema.des_sist }}</td>
+                            <td>{{ sistema.nom_sist }}</td>
+                            <td>{{ sistema.flag_activo }}</td>
+                            <td>{{ sistema.usr_creacion }}</td>
+                            <td><button (click)="setModelData(sistema.id_sistema)" data-toggle="modal" data-target="#modal_add_sistema" class="btn btn-danger width-100 mb-xs" role="button"><i class="glyphicon glyphicon-plus"></i>Editar</button></td>
+                        </tr>
+                    </tbody>
+
+                </table>
+
+            </div>
+        </section>
+    </div>
+</div>
+
+
+<div class="modal fade" id="modal_add_sistema">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title text-xs-center fw-bold mt" id="myModalLabel18">Agregar Nuevo Sistema</h4>
+                <p class="text-xs-center fs-mini text-muted mt-sm">
+
+                </p>
+            </div>
+            <section class="widget" widget>
+                <div class="widget-body">
+                    <form (ngSubmit)="onSubmit()" #sistemasForm="ngForm" class="form-horizontal form-label-left parsleyjs">
+                        <div class="form-group row">
+                            <label class="form-control-label col-md-3 col-xs-12" for="basic">Nombre</label>
+                            <div class="col-md-9 col-xs-12">
+                                <input type="text" id="nom_sist" [(ngModel)]="model_sistema.nom_sist" name="nom_sist" class="form-control" required>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label class="form-control-label col-md-3 col-xs-12" for="email">Descripción</label>
+                            <div class="col-md-9 col-xs-12">
+                                <input type="text" id="des_sist" [(ngModel)]="model_sistema.des_sist" name="des_sist" class="form-control" data-parsley-trigger="change" data-parsley-validation-threshold="1" required="required">
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <div class="col-md-9 col-xs-12">
+                                <div class="checkbox">
+                                    <label><input type="checkbox" [(ngModel)]="model_sistema.flag_activo" name="flag_activo" value="1">Activar?</label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-gray" data-dismiss="modal">Close</button>
+                            <button type="button" class="btn btn-success" (click)="editorsave()">Save changes</button>
+                        </div>
+                    </form>
+                </div>
+            </section>
+
+        </div>
+    </div>
+</div>

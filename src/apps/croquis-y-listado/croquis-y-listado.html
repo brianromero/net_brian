@@ -1,0 +1,187 @@
+<!-- Content area -->
+<div class="row">
+    <div class="col-lg-12">
+        <section class="widget">
+            <form class="form-inline">
+                <div class="form-group">
+                    <label for="lDepartamento"><h5> DEPARTAMENTO</h5></label>
+                    <select class="form-control" name="departamentos" (change)="cargarProvincias($event.target.value)">
+                        <option value="0">TODOS</option>
+                        <option *ngFor="let el of departamentos" value="{{ el.ccdd }}">{{ el.departamento }}</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="lProvincia"><h5> PROVINCIA</h5></label>
+                    <select class="form-control" name="provincias" (change)="cargarDistritos($event.target.value)">
+                        <option value="0">TODOS</option>
+                        <option *ngFor="let e of provincias" value="{{ e.ccpp }}">{{ e.provincia }}</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="lDistrito"><h5> DISTRITO</h5></label>
+                    <select class="form-control" name="distritos" (change)="cargarZonas($event.target.value)">
+                        <option value="0">TODOS</option>
+                        <option *ngFor="let e of distritos" value="{{ e.ccdi }}">{{ e.distrito }}</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="lArea"><h5> ÁREA</h5></label>
+                    <select class="form-control" name="areas">
+                        <option value="0"> Urbana</option>
+                        <option value="1"> Rural</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="lZona"><h5> ZONA</h5></label>
+                    <select class="form-control" name="zonas" (change)="cargarAeu($event.target.value)">
+                        <option value="0">TODOS</option>
+                        <option *ngFor="let er of zonas" value="{{ er.zona }}">{{ er.zona }}</option>
+                    </select>
+                </div>
+            </form>
+
+            <form action="" class="inline">
+                <div *ngIf="distrito" class="col-md-2">
+                    <button type="button" (click)="procesar()" class="btn btn-primary">Procesar</button>
+                </div>
+
+                <div class="col-md-12" align="left">
+                    <hr style="color: black; background-color: black; width:100%;" />
+                    <a class="btn btn-default" onclick="descargarCroExcel()">EXCEL <i class="fa fa-download"></i></a>
+                </div>
+            </form>
+        </section>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-lg-12">
+        <section class="widget">
+            <table class="table table-bordered table-lg mt-lg mb-0" id="tablaCro">
+                <thead>
+                    <tr>
+                        <th width="12%">Departamento</th>
+                        <th width="12%">Provincia</th>
+                        <th width="11%">Distrito</th>
+                        <th width="11%">Zona</th>
+                        <th width="10%">Nro. de secciones</th>
+                        <th width="10%">Nro. de AEU</th>
+                        <th width="11%">Estado</th>
+                        <th *ngIf="verZona" width="11%">Ver</th>
+                        <th *ngIf="verZona" width="11%">Descargar</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let re of registros">
+                        <td>{{re.DEPARTAMENTO}}</td>
+                        <td>{{re.PROVINCIA}}</td>
+                        <td>{{re.DISTRITO}}</td>
+                        <td>{{re.ZONA}}</td>
+                        <td>{{re.NUM_SEC}}</td>
+                        <td>{{re.NUM_AEU}}</td>
+                        <td>
+                            <span [ngSwitch]="re.EST_CROQUIS">
+                            <span *ngSwitchCase="0"> - </span>
+                            <span *ngSwitchCase="3" class="btn btn-warning">PENDIENTE</span>
+                            <span *ngSwitchCase="4" class="btn btn-success">EXITOSO</span>
+                            <span *ngSwitchCase="9" class="btn btn-danger">FALLIDO</span>
+                            </span>
+                        </td>
+                        <td *ngIf="verZona">
+                            <button (click)="getRegistro(0)" (click)="getRuta()" class="btn btn-primary" data-toggle="modal" data-target=".bd-example-modal-lg"><i class="fa fa-pencil"></i></button>
+                        </td>
+                        <td *ngIf="verZona">
+                            <div class="btn-group">
+                                <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fa fa-download"> </i></button>
+                                <div class="dropdown-menu">
+                                    <a class="dropdown-item" [href]=urlCroquis download>ZONA</a>
+                                    <a class="dropdown-item" [href]=urlCroquis download>SECCION</a>
+                                    <a class="dropdown-item" [href]=urlCroquis download>EMPADRONADOR</a>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-lg-12">
+        <section class="widget">
+            <div class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+                <div class="modal-full">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                            <h4 align="center" class="modal-title" id="myModalLabel">CROQUIS Y LISTADO</h4>
+                        </div>
+
+
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <section class="widget">
+                                    <form class="form-inline">
+                                        <div class="form-group">
+                                            <label for="lSeccion"><h5> SECCIÓN</h5></label>
+                                            <th width="12%"><a class="btn btn-default" [href]=urlCroquis download>PDF  <i class="fa fa-download"> </i></a></th>
+                                            <select class="form-control" name="seccion" (change)="getRegistro($event.target.value)">
+                                                <option value="0">ZONA</option>
+                                                <option value="1">SECCIÓN</option>
+                                                <option value="2">EMPADRONADOR</option>                        
+                                            </select>
+                                            <hr style="color: black; background-color: black; width:100%;" />
+                                        </div>
+                                    </form>
+                                </section>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-lg-4">
+                            <section class="widget">
+                                <table class="table table-bordered table-lg mt-lg mb-0" id="tablaSeg">
+
+                                    <thead>
+                                        <tr>
+                                            <th width="11%">Zona</th>
+                                            <th *ngIf="seccionAux" width="10%">Sección</th>
+                                            <th *ngIf="aeuAux" width="10%">Nro. de AEU</th>
+                                            <th width="11%">Estado</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr *ngFor="let re1 of registros2">
+                                            <td>{{re1.ZONA}}</td>
+                                            <td *ngIf="seccionAux">{{re1.SECCION}}</td>
+                                            <td *ngIf="aeuAux">{{re1.AEU_FINAL}}</td>
+                                            <td>
+                                                <span [ngSwitch]="re1.EST_CROQUIS">
+                                        <span *ngSwitchCase="1"> - </span>
+                                                <span *ngSwitchCase="2" class="btn btn-warning">PENDIENTE</span>
+                                                <span *ngSwitchCase="3" class="btn btn-primary">EN PROCESO</span>
+                                                <span *ngSwitchCase="4" class="btn btn-success">EXITOSO</span>
+                                                <span *ngSwitchCase="9" class="btn btn-danger">FALLIDO</span>
+                                                </span>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </section>
+                        </div>
+                        <div class="col-lg-8">
+                            <!--<object id="object" [data]=urlCroquis type="application/pdf" width="1240" height="700">-->
+                            <object id="object" [data]=urlCroquis type="application/pdf" width="100%" height="100%">
+                                alt : <a [href]=urlCroquis>test.pdf</a>
+                            </object>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+</div>

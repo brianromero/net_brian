@@ -1,0 +1,111 @@
+<div class="row">
+    <div class="col-lg-12">
+        <section class="widget">
+            <form class="form-inline">
+                <div class="form-group">
+                    <label for="lDepartamento"><h5> DEPARTAMENTO</h5></label>
+                    <select id="Cdepa" class="browser-default" name="departamentos" (change)="cargarProvincias($event.target.value)">
+                        <option value="0">TODOS</option>
+                        <option *ngFor="let el of departamentos" value="{{ el.ccdd }}">{{ el.departamento }}</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="lProvincia"><h5> PROVINCIA</h5></label>
+                    <select class="browser-default" name="provincias" (change)="cargarDistritos($event.target.value)">
+                        <option value="0">TODOS</option>
+                        <option *ngFor="let e of provincias" value="{{ e.ccpp }}">{{ e.provincia }}</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="lDistrito"><h5> DISTRITO</h5></label>
+                    <select class="browser-default" name="distritos" (change)="cargarZonas($event.target.value)">
+                        <option value="0">TODOS</option>
+                        <option *ngFor="let e of distritos" value="{{ e.ccdi }}">{{ e.distrito }}</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="lArea"><h5> ÁREA</h5></label>
+                    <select class="browser-default" name="areas">
+                        <option value="0"> URBANA</option>
+                        <option value="1"> RURAL</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="lZona"><h5> ZONA</h5></label>
+                    <select class="browser-default" name="zonas" (change)="cargarAeu($event.target.value)">
+                        <option value="0">TODOS</option>
+                        <option *ngFor="let er of zonas" value="{{ er.zona }}">{{ er.zona }}</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="lDistribucion"><h5> DISTRIBUCIÓN</h5></label>
+                    <select class="browser-default" name="zonas">
+                        <option value="0">EMPADRONADOR</option>
+                        <option value="0">JEFE DE SECCIÓN</option>
+                        <option value="0">JEFE DE ZONA</option>
+                    </select>
+                </div>
+            </form>
+            <form action="" class="inline">
+                <div class="col-md-3">
+                    <label for="lDistribucion1"><h5> CÓDIGO DE BARRAS</h5></label>
+                    <input type="text" id="a" (keyup)="capturaEvento($event,$event.target.value)" placeholder="Código de barra" />
+                </div>
+                <div class="col-md-3">
+                    <label for="lDetalle1"><h5> N° TOTAL:</h5></label>
+                    <label for="lDetalle2"><h5> 0</h5></label>
+                    <label for="lDetalle3"><h5> DE </h5></label>
+                    <label for="lDetalle4"><h5> 68</h5></label>
+                </div>
+                <div class="col-md-2">
+                    <button type="button" (click)="guardar()" class="btn btn-primary" disabled>Guardar</button>
+                </div>
+                <div class="col-md-2">
+                    <button type="button" (click)="generarEtiquetas()" class="btn btn-primary" disabled>Generar etiquetas</button>
+                </div>
+                <div class="col-md-2">
+                    <button type="button" (click)="enviarUdra()" class="btn btn-primary" disabled>Enviar a udra</button>
+                </div>
+                <div class="col-md-12" align="left">
+                    <hr style="color: black; background-color: black; width:100%;" />
+                    <a class="btn btn-default" onclick="descargarCroExcel()">EXCEL <i class="fa fa-download"></i></a>
+                </div>
+            </form>
+        </section>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-lg-12">
+        <section class="widget">
+            <table class="table table-bordered table-lg mt-lg mb-0" id="tablaLeg">
+                <thead>
+                    <tr>
+                        <th width="12%">Nro.</th>
+                        <th width="12%">Código de barras</th>
+                        <th width="12%">Departamento</th>
+                        <th width="12%">Provincia</th>
+                        <th width="11%">Distrito</th>
+                        <th width="11%">Zona</th>
+                        <th width="10%">Sección</th>
+                        <th width="10%">AEU</th>
+                        <th width="11%">Seleccionar</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let re of registros">
+                        <td>{{re.DEPARTAMENTO}}</td>
+                        <td>02060100100101</td>
+                        <td>{{re.DEPARTAMENTO}}</td>
+                        <td>{{re.PROVINCIA}}</td>
+                        <td>{{re.DISTRITO}}</td>
+                        <td>{{re.ZONA}}</td>
+                        <td>{{re.NUM_SEC}}</td>
+                        <td>{{re.NUM_AEU}}</td>
+                        <td><input type="checkbox" value="0" checked disabled></td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+    </div>
+</div>
