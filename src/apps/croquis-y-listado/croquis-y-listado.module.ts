@@ -39,6 +39,11 @@ import {
 } from './registro.interface';
 
 import {DomSanitizer} from "@angular/platform-browser";
+
+
+import 'JSZip'; //JSZip
+
+
 @Component({
   templateUrl: 'croquis-y-listado.html',
   providers: [CroquisylistadoService]  
@@ -49,10 +54,12 @@ class Croquisylistado{
   private ccdd :any;
   private ccpp :any;
   private ccdi :any;
-  private zona :any;
+  private zona :any=0;
   private verZona=false;
   private url :string='';
   private urlCroquis :any;
+  private urlProcesar :any;
+  private tipo_cro :number=0;
   private tabledata:boolean = false;
   private seccionAux:boolean = false;
   private aeuAux:boolean = false;
@@ -73,14 +80,6 @@ class Croquisylistado{
   }
 
   model = new RegistroInterface();
-
-  descargarZip(){
-    Helpers.descargarZip();
-  }
-
-  descargarCroExcel(){
-    Helpers.descargarCroExcel();
-  }
 
   cargarDepa() {
     this.segmentacionservice.getDepartamentos().subscribe(res => {
@@ -158,19 +157,20 @@ class Croquisylistado{
   }
 
   getRegistro(tipo_cro) {
-    if(tipo_cro==0){
+    this.tipo_cro=tipo_cro;
+    if(this.tipo_cro==0){
       this.seccionAux=false;
       this.aeuAux=false;
     }
-    if(tipo_cro==1){
+    if(this.tipo_cro==1){
       this.seccionAux=true;
       this.aeuAux=false;
     }
-    if(tipo_cro==2){
+    if(this.tipo_cro==2){
       this.seccionAux=true;
       this.aeuAux=true;
     }
-    this.url = tipo_cro +'/' + this.ccdd + '/' + this.ccpp + '/' + this.ccdi + '/' + this.zona + '/';
+    this.url = this.tipo_cro +'/' + this.ccdd + '/' + this.ccpp + '/' + this.ccdi + '/' + this.zona + '/';
     this.segmentacionservice.getRegistro(this.url).subscribe((data) => {
       this.registros2 = < RegistroInterface > data;
       console.log(this.registros2);            
@@ -182,8 +182,50 @@ class Croquisylistado{
     this.urlCroquis = this.domSanitizer.bypassSecurityTrustResourceUrl(`http://192.168.221.123/desarrollo/${urlCroquisAux}.pdf`);
   }
 
-  getUrlaaa(){
-    console.log(this.urlCroquis)
+  descargarExcel(id, nom){
+    Helpers.descargarExcel(id, nom);
+  }
+
+  procesarCro(){
+    this.urlProcesar = '';
+    if(this.zona!='0'){
+      this.urlProcesar = this.ccdd + '/' + this.ccpp + '/' + this.ccdi + '/' + this.zona + '/';
+    }else{
+      this.urlProcesar = this.ccdd + '/' + this.ccpp + '/' + this.ccdi + '/0/';
+    }
+    alert("PROCESANDO GENERACION DE CROQUIS Y LISTADO: "+this.urlProcesar)
+  }
+  
+  descargarZip(){
+    /*var zip = new JSZip();
+    zip.file("Hello.txt", "Hello World\n");
+    //var img = zip.folder("images");
+    //img.file("smile.gif", imgData, {base64: true});
+    zip.generateAsync({type:"blob"})
+    .then(function(content) {
+        // see FileSaver.js
+        saveAs(content, "example.zip");
+     });
+    */
+
+    /*
+    this.url = this.tipo_cro +'/' + this.ccdd + '/' + this.ccpp + '/' + this.ccdi + '/' + this.zona + '/';
+    this.segmentacionservice.getRegistro(this.url).subscribe((data) => {
+      this.registros2 = < RegistroInterface > data;
+      console.log(this.registros2);            
+    })
+    var zip = new JSZip();
+    if(this.tipo_cro==0){
+      zip.file("Hello.txt", "Hello World\n");
+    }    
+    //var img = zip.folder("images");
+    //img.file("smile.gif", imgData, {base64: true});
+    zip.generateAsync({type:"blob"})
+    .then(function(content) {
+        // see FileSaver.js
+        saveAs(content, "example.zip");
+    });
+    */
   }
 }
 

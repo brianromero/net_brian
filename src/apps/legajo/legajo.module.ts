@@ -37,7 +37,7 @@ import {
 import {
   RegistroInterface
 } from './registro.interface';
-
+import {Helpers} from './../../app/helper';
 import {DomSanitizer} from "@angular/platform-browser";
 @Component({
   templateUrl: 'legajo.html',
@@ -172,6 +172,11 @@ class Legajo {
     }
     return valido
   }
+
+  descargarExcel(id,nom){
+    Helpers.descargarExcel(id,nom);
+  }
+
 }
 
 const routes: Routes = [{

@@ -42,12 +42,12 @@
 
             <form action="" class="inline">
                 <div *ngIf="distrito" class="col-md-2">
-                    <button type="button" (click)="procesar()" class="btn btn-primary">Procesar</button>
+                    <button type="button" (click)="procesarCro()" class="btn btn-primary">Procesar</button>
                 </div>
 
                 <div class="col-md-12" align="left">
                     <hr style="color: black; background-color: black; width:100%;" />
-                    <a class="btn btn-default" (click)="descargarCroExcel()">EXCEL <i class="fa fa-download"></i></a>
+                    <a class="btn btn-default" (click)="descargarExcel('tablaCro', 'CROQUIS_Y_LISTADO')">EXCEL <i class="fa fa-download"></i></a>
                 </div>
             </form>
         </section>
@@ -145,10 +145,10 @@
                         </section>
                     </div>
                 </div>
-                <div class="row" style="height: 600px">
-                    <div class="col-md-4">
+                <div class="row" style="height: 700px;">
+                    <div class="col-md-2"  style="overflow-y:scroll;">
                         <section class="widget">
-                            <table class="table table-bordered table-lg mt-lg mb-0" id="tablaSeg">
+                            <table class="table table-bordered table-lg mt-lg mb-0" id="tablaSeg" class="scroll">
                                 <thead>
                                     <tr>
                                         <th width="11%">Zona</th>
@@ -176,7 +176,7 @@
                             </table>
                         </section>
                     </div>
-                    <div class="col-md-8">
+                    <div class="col-md-10">
                         <object id="object" [data]=urlCroquis type="application/pdf" width="100%" height="100%">
                                 alt : <a [href]=urlCroquis>test.pdf</a>
                         </object>

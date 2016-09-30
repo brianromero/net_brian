@@ -49,7 +49,7 @@ class Segmentacion{
   private ccdd :any;
   private ccpp :any;
   private ccdi :any;
-  private zona :any;
+  private zona :any=0;
   private contador :number=0;
   private verZona=false;
   private url :string='';
@@ -75,11 +75,6 @@ class Segmentacion{
 
   model = new RegistroInterface();
   
-
-  descargarSegExcel(){
-    Helpers.descargarSegExcel();
-  }
-
   cargarDepaInicial() {
     this.segmentacionservice.getDepartamentos().subscribe(res => {
         this.departamentos = <DepartamentoInterface>res;
@@ -194,8 +189,12 @@ class Segmentacion{
     }else{
       this.urlProcesar = this.ccdd + '/' + this.ccpp + '/' + this.ccdi + '/0/';
     }
-    console.log(this.urlProcesar);
+    alert("PROCESANDO SEGMENTACION: "+this.urlProcesar)
   }
+
+  descargarExcel(id,nom){
+    Helpers.descargarExcel(id,nom);
+  }  
 
 }
 

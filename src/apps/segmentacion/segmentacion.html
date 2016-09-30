@@ -42,11 +42,11 @@
 
             <form action="" class="inline">
                 <div *ngIf="distrito" class="col-md-2">
-                    <button type="button" class="btn btn-primary">Procesar</button>
+                    <button type="button" (click)="procesarSeg()" class="btn btn-primary">Procesar</button>
                 </div>
                 <div class="col-md-12" align="left">
                     <hr style="color: black; background-color: black; width:100%;" />
-                    <a class="btn btn-default" (click)="descargarSegExcel()">EXCEL <i class="fa fa-download"></i></a>
+                    <a class="btn btn-default" (click)="descargarExcel('tablaSeg', 'SEGMENTACION')">EXCEL <i class="fa fa-download"></i></a>
                 </div>
             </form>
         </section>
