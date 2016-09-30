@@ -160,11 +160,11 @@
                                 <tbody  max-height="500px">
                                     <tr *ngFor="let re1 of registros2">
                                         <td>{{re1.ZONA}}</td>
-                                        <td *ngIf="seccionAux">{{re1.SECCION}}</td>
-                                        <td *ngIf="aeuAux">{{re1.AEU_FINAL}}</td>
+                                        <td *ngIf="seccionAux" (click)="cambiarPdfSeccion(re1.SECCION)">{{re1.SECCION}}</td>
+                                        <td *ngIf="aeuAux" (click)="cambiarPdfAeu(re1.AEU_FINAL)">{{re1.AEU_FINAL}}</td>
                                         <td>
                                             <span [ngSwitch]="re1.EST_CROQUIS">
-                                        <span *ngSwitchCase="1"> - </span>
+                                            <span *ngSwitchCase="1"> - </span>
                                             <span *ngSwitchCase="2" class="btn btn-warning">PENDIENTE</span>
                                             <span *ngSwitchCase="3" class="btn btn-primary">EN PROCESO</span>
                                             <span *ngSwitchCase="4" class="btn btn-success">EXITOSO</span>

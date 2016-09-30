@@ -55,6 +55,8 @@ class Croquisylistado{
   private ccpp :any;
   private ccdi :any;
   private zona :any=0;
+  private seccion:any=0;
+  private aeu:any=0;
   private verZona=false;
   private url :string='';
   private urlCroquis :any;
@@ -171,10 +173,31 @@ class Croquisylistado{
       this.aeuAux=true;
     }
     this.url = this.tipo_cro +'/' + this.ccdd + '/' + this.ccpp + '/' + this.ccdi + '/' + this.zona + '/';
+    if(this.tipo_cro==0){
+      this.getRuta();
+    }
+    if(this.tipo_cro==1){
+      this.cambiarPdfSeccion(1);
+    }
+    if(this.tipo_cro==2){
+      this.cambiarPdfAeu(1);
+    }
     this.segmentacionservice.getRegistro(this.url).subscribe((data) => {
       this.registros2 = < RegistroInterface > data;
       console.log(this.registros2);            
     })
+  }
+
+  cambiarPdfSeccion(seccion){
+    this.seccion=seccion;
+    let urlCroquisAux = this.ccdd + this.ccpp + this.ccdi + this.zona+ this.seccion;
+    this.urlCroquis = this.domSanitizer.bypassSecurityTrustResourceUrl(`http://192.168.221.123/desarrollo/${urlCroquisAux}.pdf`);
+  }
+
+  cambiarPdfAeu(aeu){
+    this.aeu=aeu;
+    let urlCroquisAux = this.ccdd + this.ccpp + this.ccdi + this.zona+ this.seccion + this.aeu;
+    this.urlCroquis = this.domSanitizer.bypassSecurityTrustResourceUrl(`http://192.168.221.123/desarrollo/${urlCroquisAux}.pdf`);
   }
 
   getRuta(){
