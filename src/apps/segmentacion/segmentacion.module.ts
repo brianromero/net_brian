@@ -33,7 +33,7 @@ import {
 import {
   DepartamentoInterface
 } from './departamento.interface';
-
+import {Helpers} from './../../app/helper';
 import {
   RegistroInterface
 } from './registro.interface';
@@ -75,6 +75,11 @@ class Segmentacion{
 
   model = new RegistroInterface();
   
+
+  descargarSegExcel(){
+    Helpers.descargarSegExcel();
+  }
+
   cargarDepaInicial() {
     this.segmentacionservice.getDepartamentos().subscribe(res => {
         this.departamentos = <DepartamentoInterface>res;

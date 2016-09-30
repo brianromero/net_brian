@@ -33,7 +33,7 @@ import {
 import {
   DepartamentoInterface
 } from './departamento.interface';
-
+import {Helpers} from './../../app/helper';
 import {
   RegistroInterface
 } from './registro.interface';
@@ -73,6 +73,14 @@ class Croquisylistado{
   }
 
   model = new RegistroInterface();
+
+  descargarZip(){
+    Helpers.descargarZip();
+  }
+
+  descargarCroExcel(){
+    Helpers.descargarCroExcel();
+  }
 
   cargarDepa() {
     this.segmentacionservice.getDepartamentos().subscribe(res => {
