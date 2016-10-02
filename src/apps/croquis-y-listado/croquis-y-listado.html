@@ -1,3 +1,4 @@
+<h1 class="page-title">SISTEMA INTEGRADO DE SEGMENTACIÓN - <span class="fw-semi-bold">CROQUIS Y LISTADOS</span></h1>
 <!-- Content area -->
 <div class="row">
     <div class="col-lg-12">
@@ -52,14 +53,10 @@
             </form>
         </section>
     </div>
+</div>
 
-
-
-            <!--<input type="file" multiple id="file-input">-->
-        <button (click)="descargarZip()" value="Descargar"> </button>
-
-
-
+<div>
+    <button onclick="descargarZip()" value="DESCARGARRRRRRRRR"> </button>
 </div>
 
 <div class="row">
@@ -96,15 +93,15 @@
                             </span>
                         </td>
                         <td *ngIf="verZona">
-                            <button (click)="getRegistro(0)" (click)="getRuta()" class="btn btn-primary" data-toggle="modal" data-target=".bd-example-modal-lg"><i class="fa fa-pencil"></i></button>
+                            <button (click)="getRegistro(0)" class="btn btn-primary" data-toggle="modal" data-target=".bd-example-modal-lg"><i class="fa fa-pencil"></i></button>
                         </td>
                         <td *ngIf="verZona">
                             <div class="btn-group">
                                 <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fa fa-download"> </i></button>
                                 <div class="dropdown-menu">
                                     <a class="dropdown-item" [href]=urlCroquis download>ZONA</a>
-                                    <a class="dropdown-item" [href]=urlCroquis download>SECCION</a>
-                                    <a class="dropdown-item" [href]=urlCroquis download>EMPADRONADOR</a>
+                                    <a class="dropdown-item" (click)="descargarZip(1)">SECCION</a>
+                                    <a class="dropdown-item" (click)="descargarZip(2)">EMPADRONADOR</a>
                                 </div>
                             </div>
                         </td>
@@ -161,16 +158,19 @@
                                     <tr *ngFor="let re1 of registros2">
                                         <td>{{re1.ZONA}}</td>
                                         <td *ngIf="seccionAux" (click)="cambiarPdfSeccion(re1.SECCION)">{{re1.SECCION}}</td>
-                                        <td *ngIf="aeuAux" (click)="cambiarPdfAeu(re1.AEU_FINAL)">{{re1.AEU_FINAL}}</td>
-                                        <td>
+                                        <td *ngIf="aeuAux" (click)="cambiarPdfAeu(re1.SECCION,re1.AEU_FINAL)">{{re1.AEU_FINAL}}</td>
+                                        <td class="btn btn-success">
+                                            EXITOSO
+                                        </td>
+                                        <!--<td>
                                             <span [ngSwitch]="re1.EST_CROQUIS">
                                             <span *ngSwitchCase="1"> - </span>
                                             <span *ngSwitchCase="2" class="btn btn-warning">PENDIENTE</span>
                                             <span *ngSwitchCase="3" class="btn btn-primary">EN PROCESO</span>
                                             <span *ngSwitchCase="4" class="btn btn-success">EXITOSO</span>
                                             <span *ngSwitchCase="9" class="btn btn-danger">FALLIDO</span>
-                                            </span>
-                                        </td>
+                                            </span>                                            
+                                        </td>-->
                                     </tr>
                                 </tbody>
                             </table>

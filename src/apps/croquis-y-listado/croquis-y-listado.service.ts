@@ -83,6 +83,15 @@ export class CroquisylistadoService {
         return this.http.get(url).map(this.extractData).catch(this.handleError)
     }
 
+    getRegistro(url:string=''): Observable < Object > {
+        let tablaUrlAux3 = this.tablaUrlAux2 + url;
+        if(url!=''){
+            return this.http.get(tablaUrlAux3).map(this.extractData)
+        }else{
+            return this.http.get(this.tablaUrlAux).map(this.extractData)
+        }        
+    }
+    
     private extractData(res: Response) {
         let body = res.json();
         return body || {};
@@ -93,14 +102,5 @@ export class CroquisylistadoService {
             error.status ? `${error.status} - ${error.statusText}` : 'Server error';
         console.error(errMsg);
         return Observable.throw(errMsg);
-    }
-    
-    getRegistro(url:string=''): Observable < Object > {
-        let tablaUrlAux3 = this.tablaUrlAux2 + url;
-        if(url!=''){
-            return this.http.get(tablaUrlAux3).map(this.extractData)
-        }else{
-            return this.http.get(this.tablaUrlAux).map(this.extractData)
-        }        
     }
 }
