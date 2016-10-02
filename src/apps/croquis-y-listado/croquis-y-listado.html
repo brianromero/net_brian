@@ -55,10 +55,6 @@
     </div>
 </div>
 
-<div>
-    <button onclick="descargarZip()" value="DESCARGARRRRRRRRR"> </button>
-</div>
-
 <div class="row">
     <div class="col-lg-12">
         <section class="widget">
@@ -130,12 +126,12 @@
                             <form class="form-inline">
                                 <div class="form-group">
                                     <label for="lSeccion"><h5> SECCIÓN</h5></label>
-                                    <th width="12%"><a class="btn btn-default" [href]=urlCroquis download>PDF  <i class="fa fa-download"> </i></a></th>
                                     <select class="form-control" name="seccion" (change)="getRegistro($event.target.value)">
                                         <option value="0">ZONA</option>
                                         <option value="1">SECCIÓN</option>
                                         <option value="2">EMPADRONADOR</option>                        
                                     </select>
+                                    <a class="btn btn-default" [href]=urlCroquis download> PDF  <i class="fa fa-download"> </i></a>
                                 </div>
                                 <hr style="color: black; background-color: black; width:100%;" />
                             </form>
@@ -157,9 +153,9 @@
                                 <tbody  max-height="500px">
                                     <tr *ngFor="let re1 of registros2">
                                         <td>{{re1.ZONA}}</td>
-                                        <td *ngIf="seccionAux" (click)="cambiarPdfSeccion(re1.SECCION)">{{re1.SECCION}}</td>
+                                        <td id="re1.SECCION" *ngIf="seccionAux" (click)="cambiarPdfSeccion(re1.SECCION)">{{re1.SECCION}}</td>
                                         <td *ngIf="aeuAux" (click)="cambiarPdfAeu(re1.SECCION,re1.AEU_FINAL)">{{re1.AEU_FINAL}}</td>
-                                        <td class="btn btn-success">
+                                        <td name="" class="btn btn-success">
                                             EXITOSO
                                         </td>
                                         <!--<td>

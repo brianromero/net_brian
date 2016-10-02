@@ -48,7 +48,7 @@ declare var JSZip;
   providers: [CroquisylistadoService]
 })
 
-class Croquisylistado implements AfterViewInit {
+class Croquisylistado {
 
   private ccdd: any;
   private ccpp: any;
@@ -73,30 +73,13 @@ class Croquisylistado implements AfterViewInit {
   private provincias: ProvinciaInterface;
   private distritos: DistritoInterface;
   private zonas: ZonaInterface;
-  private contador: number;
+  private contador: number=1;
+  private pintar:string="#ffffff";
 
   constructor(private croquisylistado: CroquisylistadoService, private elementRef: ElementRef, private domSanitizer: DomSanitizer) {
     this.cargarDepa()
     this.cargarTabla("0", "0", "0", "0", "0")
     this.registro = this.model
-  }
-
-  ngAfterViewInit() {
-    var s = document.createElement("script");
-    s.type = "text/javascript";
-    s.src = "http://webinei.inei.gob.pe/jszip.js";
-    this.elementRef.nativeElement.appendChild(s);
-
-    var sa1 = document.createElement("script");
-    sa1.type = "text/javascript";
-    sa1.src = "http://webinei.inei.gob.pe/FileSaver.js";
-    this.elementRef.nativeElement.appendChild(sa1);
-
-    var sa = document.createElement("script");
-    sa.type = "text/javascript";
-    sa.src = "http://webinei.inei.gob.pe/brian.js";
-    this.elementRef.nativeElement.appendChild(sa);
-
   }
 
   model = new RegistroInterface();
@@ -166,6 +149,7 @@ class Croquisylistado implements AfterViewInit {
       this.verZona = false;
       this.cargarTabla("3", this.ccdd, this.ccpp, this.ccdi, "0")
     }
+    this.getRuta()
   }
 
   cargarTabla(tipo: string, ccdd: string, ccpp: string, ccdi: string, zona: string) {
@@ -207,6 +191,15 @@ class Croquisylistado implements AfterViewInit {
     this.seccion = seccion;
     let urlCroquisAux = this.ccdd + this.ccpp + this.ccdi + this.zona + ('00' + this.seccion).slice(-3);
     this.urlCroquis = this.domSanitizer.bypassSecurityTrustResourceUrl(`http://192.168.221.123/desarrollo/${urlCroquisAux}.pdf`);
+    if(this.contador!==1){
+      console.log("ya");
+      if(seccion===this.seccion){
+        console.log("yaaa");  
+        this.pintar = "#000000";
+      }
+    }
+    this.contador=2;
+    console.log(seccion)
   }
 
   cambiarPdfAeu(seccion, aeu) {
@@ -231,39 +224,7 @@ class Croquisylistado implements AfterViewInit {
   }
 
   descargarZip(tipo) {
-    /*this.url = tipo + '/' + this.ccdd + '/' + this.ccpp + '/' + this.ccdi + '/' + this.zona + '/';
-    this.croquisylistado.getRegistro(this.url).subscribe((data) => {
-      this.descarga = <RegistroInterface>data;
-      console.log(this.descarga);
-    })*/
-      
-      
-      var jszip = new JSZip();
-      var i: number = 0;
-      let urlDescarga = "";
-      /*if(tipo==1){
-        for (i=0 ; i<Object.keys(this.descarga).length ; i++){
-          urlDescarga = this.ccdd + this.ccpp + this.ccdi + this.descarga.ZONA + this.descarga.seccion; 
-          jsZip.file(urlDescarga);
-        }      
-      }*/
-      if (tipo == 2) {
-        //for (i=0 ; i<Object.keys(this.descarga).length; i++ ){
-        urlDescarga = "http://192.168.221.123/desarrollo/020601001000011.pdf"; //+this.ccdd + this.ccpp + this.ccdi + '00100' + '001.pdf';//this.descarga.ZONA + this.descarga.seccion; 
-        console.log("http://192.168.221.123/desarrollo/020601001000011.pdf");
-        //jszip.file(urlDescarga,'abc');
-        jszip.file('a.txt','abc');
-        //}
-      }
-      //var img = zip.folder("images");
-      //img.file("smile.gif", imgData, {base64: true});
-      jszip.generateAsync({ type: "blob" })
-        .then(function (content) {
-          // see FileSaver.js
-          saveAs(content, "AEU.zip");
-        });
-        console.log("ya")
-
+    
   }
 
 }
