@@ -40,11 +40,14 @@ import {
 import 'jszip';
 import {DomSanitizer} from "@angular/platform-browser";
 
-declare var JSZip;
+declare var jQuery;
 
 
 @Component({
   templateUrl: 'croquis-y-listado.html',
+  styles:[`.intro { 
+    background-color: yellow;
+}`],
   providers: [CroquisylistadoService]
 })
 
@@ -73,8 +76,8 @@ class Croquisylistado {
   private provincias: ProvinciaInterface;
   private distritos: DistritoInterface;
   private zonas: ZonaInterface;
-  private contador: number=1;
-  private pintar:string="#ffffff";
+  private thisAux: any;
+  
 
   constructor(private croquisylistado: CroquisylistadoService, private elementRef: ElementRef, private domSanitizer: DomSanitizer) {
     this.cargarDepa()
@@ -160,6 +163,7 @@ class Croquisylistado {
   }
 
   getRegistro(tipo_cro) {
+    
     this.tipo_cro = tipo_cro;
     if (this.tipo_cro == 0) {
       this.seccionAux = false;
@@ -179,7 +183,7 @@ class Croquisylistado {
     this.url = this.tipo_cro + '/' + this.ccdd + '/' + this.ccpp + '/' + this.ccdi + '/' + this.zona + '/';
     this.croquisylistado.getRegistro(this.url).subscribe((data) => {
       this.registros2 = <RegistroInterface>data;
-    })
+    })       
   }
 
   getRuta() {
@@ -191,15 +195,13 @@ class Croquisylistado {
     this.seccion = seccion;
     let urlCroquisAux = this.ccdd + this.ccpp + this.ccdi + this.zona + ('00' + this.seccion).slice(-3);
     this.urlCroquis = this.domSanitizer.bypassSecurityTrustResourceUrl(`http://192.168.221.123/desarrollo/${urlCroquisAux}.pdf`);
-    if(this.contador!==1){
-      console.log("ya");
-      if(seccion===this.seccion){
-        console.log("yaaa");  
-        this.pintar = "#000000";
-      }
-    }
-    this.contador=2;
-    console.log(seccion)
+    jQuery('#tablaCroAux tr').click(function () {
+        jQuery('#tablaCroAux tr').each(function(){
+          jQuery(this).removeClass('intro')
+        })
+        jQuery(this).addClass('intro');    
+        
+    });
   }
 
   cambiarPdfAeu(seccion, aeu) {
@@ -207,6 +209,10 @@ class Croquisylistado {
     this.aeu = aeu;
     let urlCroquisAux = this.ccdd + this.ccpp + this.ccdi + this.zona + ('00' + this.seccion).slice(-3) + this.aeu;
     this.urlCroquis = this.domSanitizer.bypassSecurityTrustResourceUrl(`http://192.168.221.123/desarrollo/${urlCroquisAux}.pdf`);
+    jQuery('#tablaCroAux td').click(function () {
+        console.log(this)
+        jQuery(this).css('background-color', 'blue');
+    });
   }
 
   descargarExcel(id, nom) {

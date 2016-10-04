@@ -114,8 +114,8 @@
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
+                    <span aria-hidden="true">&times;</span>
+                </button>
                 <h4 align="center" class="modal-title" id="myModalLabel">CROQUIS Y LISTADO</h4>
             </div>
 
@@ -133,7 +133,6 @@
                                     </select>
                                     <a class="btn btn-default" [href]=urlCroquis download> PDF  <i class="fa fa-download"> </i></a>
                                 </div>
-                                <hr style="color: black; background-color: black; width:100%;" />
                             </form>
                         </section>
                     </div>
@@ -141,7 +140,7 @@
                 <div class="row" style="height: 700px;">
                     <div class="col-md-2"  style="overflow-y:scroll;">
                         <section class="widget">
-                            <table class="table table-bordered table-lg mt-lg mb-0" id="tablaSeg" class="scroll">
+                            <table class="table table-bordered table-lg mt-lg mb-0" id="tablaCroAux" class="scroll">
                                 <thead>
                                     <tr>
                                         <th width="11%">Zona</th>
@@ -153,7 +152,7 @@
                                 <tbody  max-height="500px">
                                     <tr *ngFor="let re1 of registros2">
                                         <td>{{re1.ZONA}}</td>
-                                        <td id="re1.SECCION" *ngIf="seccionAux" (click)="cambiarPdfSeccion(re1.SECCION)">{{re1.SECCION}}</td>
+                                        <td *ngIf="seccionAux" (click)="cambiarPdfSeccion(re1.SECCION)">{{re1.SECCION}}</td>
                                         <td *ngIf="aeuAux" (click)="cambiarPdfAeu(re1.SECCION,re1.AEU_FINAL)">{{re1.AEU_FINAL}}</td>
                                         <td name="" class="btn btn-success">
                                             EXITOSO
