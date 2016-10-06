@@ -1,4 +1,5 @@
 <h1 class="page-title">SISTEMA INTEGRADO DE SEGMENTACIÓN - <span class="fw-semi-bold">CROQUIS Y LISTADOS</span></h1>
+
 <!-- Content area -->
 <div class="row">
     <div class="col-lg-12">
@@ -96,8 +97,8 @@
                                 <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fa fa-download"> </i></button>
                                 <div class="dropdown-menu">
                                     <a class="dropdown-item" [href]=urlCroquis download>ZONA</a>
-                                    <a class="dropdown-item" (click)="descargarZip(1)">SECCION</a>
-                                    <a class="dropdown-item" (click)="descargarZip(2)">EMPADRONADOR</a>
+                                    <a class="dropdown-item" [href]=urlSeccion download> SECCION</a>
+                                    <a class="dropdown-item" [href]=urlEmpadronador download> EMPADRONADOR</a>
                                 </div>
                             </div>
                         </td>
@@ -138,7 +139,7 @@
                     </div>
                 </div>
                 <div class="row" style="height: 700px;">
-                    <div class="col-md-2"  style="overflow-y:scroll;">
+                    <div class="col-md-2" style="overflow-y:scroll;">
                         <section class="widget">
                             <table class="table table-bordered table-lg mt-lg mb-0" id="tablaCroAux" class="scroll">
                                 <thead>
@@ -149,7 +150,7 @@
                                         <th width="11%">Estado</th>
                                     </tr>
                                 </thead>
-                                <tbody  max-height="500px">
+                                <tbody max-height="500px">
                                     <tr *ngFor="let re1 of registros2">
                                         <td>{{re1.ZONA}}</td>
                                         <td *ngIf="seccionAux" (click)="cambiarPdfSeccion(re1.SECCION)">{{re1.SECCION}}</td>

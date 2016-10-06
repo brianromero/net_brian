@@ -46,7 +46,7 @@ declare var jQuery;
 @Component({
   templateUrl: 'croquis-y-listado.html',
   styles:[`.intro { 
-    background-color: yellow;
+    background-color: #A9E2F3;
 }`],
   providers: [CroquisylistadoService]
 })
@@ -78,6 +78,10 @@ class Croquisylistado {
   private zonas: ZonaInterface;
   private thisAux: any;
   
+
+  private urlSeccion:any;
+  private urlEmpadronador:any;
+
 
   constructor(private croquisylistado: CroquisylistadoService, private elementRef: ElementRef, private domSanitizer: DomSanitizer) {
     this.cargarDepa()
@@ -188,7 +192,10 @@ class Croquisylistado {
 
   getRuta() {
     let urlCroquisAux = this.ccdd + this.ccpp + this.ccdi + this.zona;
+    let ubigeo = this.ccdd + this.ccpp + this.ccdi;
     this.urlCroquis = this.domSanitizer.bypassSecurityTrustResourceUrl(`http://192.168.221.123/desarrollo/${urlCroquisAux}.pdf`);
+    this.urlSeccion = this.domSanitizer.bypassSecurityTrustResourceUrl(`http://172.16.2.205:8000/descargarPdf/${ubigeo}/${this.zona}/1/`);
+    this.urlEmpadronador = this.domSanitizer.bypassSecurityTrustResourceUrl(`http://172.16.2.205:8000/descargarPdf/${ubigeo}/${this.zona}/2/`);
   }
 
   cambiarPdfSeccion(seccion) {
@@ -199,8 +206,7 @@ class Croquisylistado {
         jQuery('#tablaCroAux tr').each(function(){
           jQuery(this).removeClass('intro')
         })
-        jQuery(this).addClass('intro');    
-        
+        jQuery(this).addClass('intro');
     });
   }
 
@@ -209,9 +215,11 @@ class Croquisylistado {
     this.aeu = aeu;
     let urlCroquisAux = this.ccdd + this.ccpp + this.ccdi + this.zona + ('00' + this.seccion).slice(-3) + this.aeu;
     this.urlCroquis = this.domSanitizer.bypassSecurityTrustResourceUrl(`http://192.168.221.123/desarrollo/${urlCroquisAux}.pdf`);
-    jQuery('#tablaCroAux td').click(function () {
-        console.log(this)
-        jQuery(this).css('background-color', 'blue');
+    jQuery('#tablaCroAux tr').click(function () {
+        jQuery('#tablaCroAux tr').each(function(){
+          jQuery(this).removeClass('intro')
+        })
+        jQuery(this).addClass('intro');
     });
   }
 
@@ -230,7 +238,9 @@ class Croquisylistado {
   }
 
   descargarZip(tipo) {
-    
+    this.croquisylistado.getZip(this.ccdd, this.ccpp, this.ccdi,this.zona,tipo).subscribe(res => {
+        res;
+    })
   }
 
 }
