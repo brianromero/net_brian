@@ -36,13 +36,6 @@ export class CroquisylistadoService {
     private tablaUrlAux: string = 'http://192.168.200.123:8081/crorecargaTabla01/';
     private tablaUrlAux2: string = 'http://192.168.200.123:8081/crorecargaTabla02/';*/
 
-    /*private depaUrl: string = 'http://127.0.0.1:8000/recargaDepa/';
-    private provUrl: string = 'http://127.0.0.1:8000/recargaProv/';
-    private distUrl: string = 'http://127.0.0.1:8000/recargaDis/';
-    private zonaUrl: string = 'http://127.0.0.1:8000/recargaZona/';
-    private tablaUrlAux: string = 'http://127.0.0.1:8000/crorecargaTabla01/';
-    private tablaUrlAux2: string = 'http://127.0.0.1:8000/crorecargaTabla02/';*/
-
     private depaUrl: string = 'http://bromero.inei.com.pe:8000/recargaDepa/';
     private provUrl: string = 'http://bromero.inei.com.pe:8000/recargaProv/';
     private distUrl: string = 'http://bromero.inei.com.pe:8000/recargaDis/';
@@ -50,6 +43,14 @@ export class CroquisylistadoService {
     private tablaUrlAux: string = 'http://bromero.inei.com.pe:8000/crorecargaTabla01/';
     private tablaUrlAux2: string = 'http://bromero.inei.com.pe:8000/crorecargaTabla02/';
     private tablaUrlZip: string = 'http://bromero.inei.com.pe:8000/crodescargarPdf/';
+
+    /*private depaUrl: string = 'http://bromero.inei.com.pe:8090/recargaDepa/';
+    private provUrl: string = 'http://bromero.inei.com.pe:8090/recargaProv/';
+    private distUrl: string = 'http://bromero.inei.com.pe:8090/recargaDis/';
+    private zonaUrl: string = 'http://bromero.inei.com.pe:8090/recargaZona/';
+    private tablaUrlAux: string = 'http://bromero.inei.com.pe:8090/crorecargaTabla01/';
+    private tablaUrlAux2: string = 'http://bromero.inei.com.pe:8090/crorecargaTabla02/';
+    private tablaUrlZip: string = 'http://bromero.inei.com.pe:8090/crodescargarPdf/';*/
 
     getCargaDepaInicial(): Observable < Object >{
         return this.http.get(this.depaUrl).map(this.extractData).catch(this.handleError)

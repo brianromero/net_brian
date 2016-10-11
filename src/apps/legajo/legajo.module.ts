@@ -39,6 +39,8 @@ import {
 } from './registro.interface';
 import {Helpers} from './../../app/helper';
 import {DomSanitizer} from "@angular/platform-browser";
+import {DataTableModule,SharedModule} from 'primeng/primeng';
+
 @Component({
   templateUrl: 'legajo.html',
   providers: [LegajoService]
@@ -60,6 +62,8 @@ class Legajo {
   private distritos: DistritoInterface;
   private zonas: ZonaInterface;
   private tipo: number=0;
+  private guardarZona:boolean=false;
+  private nivel:number=0;
   
   constructor(private legajoservice: LegajoService, private elementRef: ElementRef, private domSanitizer: DomSanitizer) {
     this.cargarDepa()
@@ -126,6 +130,7 @@ class Legajo {
   }
 
   cargarAeu(zona: string) {
+    this.guardarZona=true;
     this.verZona = true;
     this.zona = zona;
     if (zona != "0") {
@@ -137,7 +142,7 @@ class Legajo {
   }
 
   cargarTabla(tipo: string, ccdd: string, ccpp: string, ccdi: string, zona: string) {
-    this.legajoservice.getTabla(tipo, ccdd, ccpp, ccdi, zona).subscribe(res => {
+    this.legajoservice.getTabla(tipo, ccdd, ccpp, ccdi, zona, "0").subscribe(res => {
       this.tabledata = true;
       this.registros = <RegistroInterface>res;
     })
@@ -173,6 +178,22 @@ class Legajo {
     return valido
   }
 
+  generarEtiqueta(nivel){
+    let parametro='';
+    if(nivel==0){
+      parametro = this.ccdd + this.ccpp + this.ccdi + this.zona;
+      this.legajoservice.generarEtiqueta(parametro).subscribe(res => {
+        this.cargarTabla("0",this.ccdd,this.ccpp,this.ccdi,this.zona);
+      })
+    }
+    if(nivel==1){
+      
+    }
+    if(nivel==2){
+      
+    }
+  }
+
   descargarExcel(id,nom){
     Helpers.descargarExcel(id,nom);
   }
@@ -185,7 +206,7 @@ const routes: Routes = [{
 }];
 
 @NgModule({
-  imports: [CommonModule, RouterModule.forChild(routes), FormsModule],
+  imports: [CommonModule, RouterModule.forChild(routes), FormsModule, DataTableModule,SharedModule],
   declarations: [Legajo]
 })
 export default class LegajoModule { }

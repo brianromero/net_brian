@@ -1,3 +1,8 @@
+<style>
+   .tabla_completa { width: 100% !important;  } 
+</style>
+
+
 <h1 class="page-title">SISTEMA INTEGRADO DE SEGMENTACIÓN - <span class="fw-semi-bold">SEGMENTACIÓN</span></h1>
 <!-- Content area -->
 <div class="row">
@@ -8,21 +13,21 @@
                     <label for="lDepartamento"><h5> DEPARTAMENTO</h5></label>
                     <select class="form-control" name="departamentos" id="departamentos" (change)="cargarProvincias($event.target.value)">
                         <option value="0">TODOS</option>
-                        <option *ngFor="let el of departamentos" value="{{ el.ccdd }}">{{ el.departamento }}</option>
+                        <option *ngFor="let el of departamentos" value="{{ el.CCDD }}">{{ el.DEPARTAMENTO }}</option>
                     </select>
                 </div>
                 <div class="form-group">
                     <label for="lProvincia"><h5> PROVINCIA</h5></label>
                     <select class="form-control" name="provincias" (change)="cargarDistritos($event.target.value)">
                         <option value="0">TODOS</option>
-                        <option *ngFor="let e of provincias" value="{{ e.ccpp }}">{{ e.provincia }}</option>
+                        <option *ngFor="let e of provincias" value="{{ e.CCPP }}">{{ e.PROVINCIA }}</option>
                     </select>
                 </div>
                 <div class="form-group">
                     <label for="lDistrito"><h5> DISTRITO</h5></label>
                     <select class="form-control" name="distritos" (change)="cargarZonas($event.target.value)">
                         <option value="0">TODOS</option>
-                        <option *ngFor="let e of distritos" value="{{ e.ccdi }}">{{ e.distrito }}</option>
+                        <option *ngFor="let e1 of distritos" value="{{ e1.CCDI }}">{{ e1.DISTRITO }}</option>
                     </select>
                 </div>
                 <div class="form-group">
@@ -33,7 +38,7 @@
                     </select>
                 </div>
                 <div class="form-group">
-                    <label for="lZona"><h5> ZONA / AER</h5></label>
+                    <label for="lZona"><h5> ZONA</h5></label>
                     <select class="form-control" name="zonas" (change)="cargarAeu($event.target.value)">
                         <option value="0">TODOS</option>
                         <option *ngFor="let er of zonas" value="{{ er.zona }}">{{ er.zona }}</option>
@@ -57,37 +62,30 @@
 <div class="row">
     <div class="col-lg-12">
         <section class="widget">
-            <table class="table table-bordered table-lg mt-lg mb-0" id="tablaSeg">
-                <thead>
-                    <tr>
-                        <th width="12%">Departamento</th>
-                        <th width="12%">Provincia</th>
-                        <th width="11%">Distrito</th>
-                        <th width="11%">Zona</th>
-                        <th width="10%">Nro. de secciones</th>
-                        <th width="10%">Nro. de AEU</th>
-                        <th width="11%">Estado</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr *ngFor="let re of registros">
-                        <td>{{re.DEPARTAMENTO}}</td>
-                        <td>{{re.PROVINCIA}}</td>
-                        <td>{{re.DISTRITO}}</td>
-                        <td>{{re.ZONA}}</td>
-                        <td>{{re.NUM_SEC}}</td>
-                        <td>{{re.NUM_AEU}}</td>
-                        <td>
-                            <span [ngSwitch]="re.EST_SEG">
-                            <span *ngSwitchCase="0"> - </span>
-                            <span *ngSwitchCase="3" class="btn btn-warning">PENDIENTE</span>
+            <div>
+                <i class="fa fa-search" style="float:left;margin:4px 4px 0 0"></i>
+                <input #gb type="text" pInputText size="50" style="float:left" placeholder="Filtro global">
+            </div>
+            <br>
+            <p-dataTable id="tablaSeg" [value]="registros" [rows]="10" [paginator]="true" [pageLinks]="3" [rowsPerPageOptions]="[10,20,30]" class="table table-bordered table-lg mt-lg mb-0" 
+                [globalFilter]="gb">
+                <p-column field="DEPARTAMENTO" header="DEPARTAMENTO" [sortable]="true"></p-column>
+                <p-column field="PROVINCIA" header="PROVINCIA" [sortable]="true"></p-column>
+                <p-column field="DISTRITO" header="DISTRITO" [sortable]="true"></p-column>
+                <p-column field="ZONA" header="ZONA" [sortable]="true"></p-column>
+                <p-column field="NUM_SEC" header="NRO. DE SECCIONES" [sortable]="true"></p-column>
+                <p-column field="NUM_AEU" header="NRO. DE AEUs" [sortable]="true"></p-column>
+                <p-column field="EST_SEG" styleClass="col-button" header="ESTADO">
+                    <template let-col let-car="rowData" pTemplate type="body">
+                        <span [ngSwitch]="car[col.field]">
+                            <span *ngSwitchCase="1"> - </span>
+                            <span *ngSwitchCase="2" class="btn btn-warning">PENDIENTE</span>
                             <span *ngSwitchCase="4" class="btn btn-success">EXITOSO</span>
                             <span *ngSwitchCase="9" class="btn btn-danger">FALLIDO</span>
-                            </span>
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
+                        </span>
+                    </template>
+                </p-column>                
+            </p-dataTable>
         </section>
     </div>
 </div>

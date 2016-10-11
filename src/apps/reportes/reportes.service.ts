@@ -25,29 +25,31 @@ import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/toPromise';
 
 @Injectable()
-export class SegmentacionService {
+export class ReportesService {
     constructor(private http: Http) {}
 
-    /*private depaUrl: string = 'http://192.168.200.123:8081/recargaDepa/';
-    private provUrl: string = 'http://192.168.200.123:8081/recargaProv/';
-    private distUrl: string = 'http://192.168.200.123:8081/recargaDis/';
-    private zonaUrl: string = 'http://192.168.200.123:8081/recargaZona/';
-    private tablaUrl: string = 'http://192.168.200.123:8081/recargaTabla/';
-    private tablaUrlAux: string = 'http://192.168.200.123:8081/recargaTabla01/';*/
+    /*private depaUrl: string = 'http://192.168.200.123:8081/segrecargaDepa/';
+    private provUrl: string = 'http://192.168.200.123:8081/segrecargaProv/';
+    private distUrl: string = 'http://192.168.200.123:8081/segrecargaDis/';
+    private zonaUrl: string = 'http://192.168.200.123:8081/segrecargaZona/';
+    //private tablaUrl: string = 'http://192.168.200.123:8081/segrecargaTabla/';
+    private tablaUrlAux: string = 'http://192.168.200.123:8081/crorecargaTabla01/';
+    private tablaUrlAux2: string = 'http://192.168.200.123:8081/crorecargaTabla02/';*/
 
+    /*private depaUrl: string = 'http://bromero.inei.com.pe:8000/recargaDepa/';
+    private provUrl: string = 'http://bromero.inei.com.pe:8000/recargaProv/';
+    private distUrl: string = 'http://bromero.inei.com.pe:8000/recargaDis/';
+    private zonaUrl: string = 'http://bromero.inei.com.pe:8000/recargaZona/';
+    private tablaUrlAux: string = 'http://bromero.inei.com.pe:8000/crorecargaTabla01/';
+    private tablaUrlAux2: string = 'http://bromero.inei.com.pe:8000/crorecargaTabla02/';
+    private tablaUrlZip: string = 'http://bromero.inei.com.pe:8000/crodescargarPdf/';*/
 
     private depaUrl: string = 'http://bromero.inei.com.pe:8000/recargaDepa/';
     private provUrl: string = 'http://bromero.inei.com.pe:8000/recargaProv/';
     private distUrl: string = 'http://bromero.inei.com.pe:8000/recargaDis/';
     private zonaUrl: string = 'http://bromero.inei.com.pe:8000/recargaZona/';
-    private tablaUrlAux: string = 'http://bromero.inei.com.pe:8000/segrecargaTabla01/';
-
-    /*private depaUrl: string = 'http://bromero.inei.com.pe:8090/recargaDepa/';
-    private provUrl: string = 'http://bromero.inei.com.pe:8090/recargaProv/';
-    private distUrl: string = 'http://bromero.inei.com.pe:8090/recargaDis/';
-    private zonaUrl: string = 'http://bromero.inei.com.pe:8090/recargaZona/';
-    private tablaUrlAux: string = 'http://bromero.inei.com.pe:8090/segrecargaTabla01/';*/
-
+    private tablaReporte: string = 'http://bromero.inei.com.pe:8000/tablaReporte/';
+    
     getCargaDepaInicial(): Observable < Object >{
         return this.http.get(this.depaUrl).map(this.extractData).catch(this.handleError)
     }
@@ -64,7 +66,9 @@ export class SegmentacionService {
 
     getDistritos(ccdd: string, ccpp:string, ccdi:string): Observable < Object > {
         let queryparameters:string = `${ccdd}/${ccpp}/${ccdi}/`;
+        console.log(queryparameters);
         let url: string = this.distUrl + queryparameters;
+        console.log(url);
         return this.http.get(url).map(this.extractData).catch(this.handleError)
     }
 
@@ -74,9 +78,9 @@ export class SegmentacionService {
         return this.http.get(url).map(this.extractData).catch(this.handleError)
     }
 
-    getTabla(tipo: string="0", ccdd: string="0", ccpp: string="0", ccdi: string="0" ,zona: string="0"): Observable < Object > {
-        let queryparameters:string = `${tipo}/${ccdd}/${ccpp}/${ccdi}/${zona}/`;
-        let url:string = this.tablaUrlAux + queryparameters;
+    getTabla(tipo: string="0", ccdd: string="0", ccpp: string="0", ccdi: string="0"): Observable < Object > {
+        let queryparameters:string = `${tipo}/${ccdd}${ccpp}${ccdi}/`;
+        let url:string = this.tablaReporte + queryparameters;
         return this.http.get(url).map(this.extractData).catch(this.handleError)
     }
 
@@ -90,14 +94,5 @@ export class SegmentacionService {
             error.status ? `${error.status} - ${error.statusText}` : 'Server error';
         console.error(errMsg);
         return Observable.throw(errMsg);
-    }
-    
-    getRegistro(url:string=''): Observable < Object > {
-        let tablaUrlAux2 = this.tablaUrlAux + url;
-        if(url!=''){
-            return this.http.get(tablaUrlAux2).map(this.extractData)
-        }else{
-            return this.http.get(this.tablaUrlAux).map(this.extractData)
-        }        
     }
 }
