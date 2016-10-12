@@ -20,7 +20,6 @@ import {
 import {
   FormsModule
 } from '@angular/forms';
-
 import {
   ZonaInterface
 } from './zona.interface';
@@ -49,7 +48,7 @@ declare var jQuery;
   templateUrl: 'croquis-y-listado.html',
   styles:[`.intro { 
     background-color: #A9E2F3;
-}`],
+  }`],
   providers: [CroquisylistadoService]
 })
 
@@ -167,8 +166,7 @@ class Croquisylistado {
     })
   }
 
-  getRegistro(tipo_cro) {
-    
+  getRegistro(tipo_cro) {    
     this.tipo_cro = tipo_cro;
     if (this.tipo_cro == 0) {
       this.seccionAux = false;

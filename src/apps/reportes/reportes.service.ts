@@ -66,9 +66,7 @@ export class ReportesService {
 
     getDistritos(ccdd: string, ccpp:string, ccdi:string): Observable < Object > {
         let queryparameters:string = `${ccdd}/${ccpp}/${ccdi}/`;
-        console.log(queryparameters);
         let url: string = this.distUrl + queryparameters;
-        console.log(url);
         return this.http.get(url).map(this.extractData).catch(this.handleError)
     }
 

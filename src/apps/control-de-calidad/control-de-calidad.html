@@ -1,5 +1,4 @@
-<h1 class="page-title">SISTEMA INTEGRADO DE SEGMENTACIÓN - <span class="fw-semi-bold">CROQUIS Y LISTADOS</span></h1>
-
+<h1 class="page-title">SISTEMA INTEGRADO DE SEGMENTACIÓN - <span class="fw-semi-bold">CONTROL DE CALIDAD</span></h1>
 <!-- Content area -->
 <div class="row">
     <div class="col-lg-12">
@@ -23,7 +22,7 @@
                     <label for="lDistrito"><h5> DISTRITO</h5></label>
                     <select class="form-control" name="distritos" (change)="cargarZonas($event.target.value)">
                         <option value="0">TODOS</option>
-                        <option *ngFor="let e of distritos" value="{{ e.CCDI }}">{{ e.DISTRITO }}</option>
+                        <option *ngFor="let e1 of distritos" value="{{ e1.CCDI }}">{{ e1.DISTRITO }}</option>
                     </select>
                 </div>
                 <div class="form-group">
@@ -43,13 +42,9 @@
             </form>
 
             <form action="" class="inline">
-                <div *ngIf="distrito" class="col-md-2">
-                    <button type="button" (click)="procesarCro()" class="btn btn-primary">Procesar</button>
-                </div>
-
                 <div class="col-md-12" align="left">
                     <hr style="color: black; background-color: black; width:100%;" />
-                    <a class="btn btn-default" (click)="descargarExcel('tablaCro', 'CROQUIS_Y_LISTADO')">EXCEL <i class="fa fa-download"></i></a>
+                    <a class="btn btn-default" (click)="descargarExcel('tablaSeg', 'SEGMENTACION')">EXCEL <i class="fa fa-download"></i></a>
                 </div>
             </form>
         </section>
@@ -70,41 +65,28 @@
                         </div>
                     </div>
                 </form>
-                <p-dataTable id="tablaCro" [value]="registros" [rows]="10" [paginator]="true" [pageLinks]="3" [rowsPerPageOptions]="[10,20,30]" class="table table-bordered table-lg mt-lg mb-0" [globalFilter]="gb">
-                <p-column field="DEPARTAMENTO" header="DEPARTAMENTO" [sortable]="true"></p-column>
-                <p-column field="PROVINCIA" header="PROVINCIA" [sortable]="true"></p-column>
-                <p-column field="DISTRITO" header="DISTRITO" [sortable]="true"></p-column>
-                <p-column field="ZONA" header="ZONA" [sortable]="true"></p-column>
-                <p-column field="NUM_SEC" header="NRO. DE SECCIONES" [sortable]="true"></p-column>
-                <p-column field="NUM_AEU" header="NRO. DE AEUs" [sortable]="true"></p-column>
-                <p-column field="EST_CROQUIS" styleClass="col-button" header="ESTADO">
-                    <template let-col let-car="rowData" pTemplate type="body">
-                        <span [ngSwitch]="car[col.field]">
-                            <span *ngSwitchCase="1"> - </span>
-                            <span *ngSwitchCase="2" class="btn btn-warning">PENDIENTE</span>
-                            <span *ngSwitchCase="4" class="btn btn-success">EXITOSO</span>
-                            <span *ngSwitchCase="9" class="btn btn-danger">FALLIDO</span>
-                        </span>                        
-                    </template>
-                </p-column>
-                <p-column *ngIf="verZona" header="VER">
-                    <template pTemplate type="body">
-                        <button (click)="getRegistro(0)" class="btn btn-primary" data-toggle="modal" data-target=".bd-example-modal-lg"><i class="fa fa-pencil"></i></button>
-                    </template>
-                </p-column>
-                <p-column *ngIf="verZona" header="DESCARGAR">
-                    <template pTemplate type="body">
-                        <div class="btn-group">
-                            <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fa fa-download"> </i></button>
-                            <div class="dropdown-menu">
-                                <a class="dropdown-item" [href]=urlCroquis download>ZONA</a>
-                                <a class="dropdown-item" [href]=urlSeccion download> SECCION</a>
-                                <a class="dropdown-item" [href]=urlEmpadronador download> EMPADRONADOR</a>
-                            </div>
-                        </div>
-                    </template>
-                </p-column>
-            </p-dataTable>
+                <p-dataTable id="tablaCont" [value]="registros" [rows]="10" [paginator]="true" [pageLinks]="3" [rowsPerPageOptions]="[10,20,30]"
+                    class="table table-bordered table-lg mt-lg mb-0" [globalFilter]="gb">
+                    <p-column field="DEPARTAMENTO" header="DEPARTAMENTO" [sortable]="true"></p-column>
+                    <p-column field="PROVINCIA" header="PROVINCIA" [sortable]="true"></p-column>
+                    <p-column field="DISTRITO" header="DISTRITO" [sortable]="true"></p-column>
+                    <p-column field="ZONA" header="ZONA" [sortable]="true"></p-column>
+                    <p-column field="NUM_SEC" header="NRO. DE SECCIONES" [sortable]="true"></p-column>
+                    <p-column field="NUM_AEU" header="NRO. DE AEUs" [sortable]="true"></p-column>
+                    <p-column field="EST_CONT" styleClass="col-button" header="ESTADO">
+                        <template let-col let-car="rowData" pTemplate type="body">
+                            <span [ngSwitch]="car[col.field]">                                
+                            <span *ngSwitchCase="4" class="btn btn-success">VÁLIDO</span>
+                            <span *ngSwitchCase="9" class="btn btn-danger">OBSERVADO</span>
+                            </span>
+                        </template>
+                    </p-column>
+                    <p-column *ngIf="verZona" header="VER">
+                        <template pTemplate type="body">
+                            <button (click)="getRegistro(0)" class="btn btn-primary" data-toggle="modal" data-target=".bd-example-modal-lg"><i class="fa fa-pencil"></i></button>
+                        </template>
+                    </p-column>
+                </p-dataTable>
             </div>
         </section>
     </div>
@@ -119,7 +101,6 @@
                 </button>
                 <h4 align="center" class="modal-title" id="myModalLabel">CROQUIS Y LISTADO</h4>
             </div>
-
             <div class="modal-body">
                 <div class="row">
                     <div class="col-lg-12">
@@ -156,15 +137,15 @@
                                         <td *ngIf="seccionAux" (click)="cambiarPdfSeccion(re1.SECCION)">{{re1.SECCION}}</td>
                                         <td *ngIf="aeuAux" (click)="cambiarPdfAeu(re1.SECCION,re1.AEU_FINAL)">{{re1.AEU_FINAL}}</td>
                                         <td> <span class="btn btn-success">EXITOSO</span> </td>
-                                        <!--<td>
-                                            <span [ngSwitch]="[re1.EST_CROQUIS]">
+                                        <td>
+                                            <span [ngSwitch]="[re1.EST_CONT]">
                                             <span *ngSwitchCase="1"> - </span>
                                             <span *ngSwitchCase="2" class="btn btn-warning">PENDIENTE</span>
                                             <span *ngSwitchCase="3" class="btn btn-primary">EN PROCESO</span>
                                             <span *ngSwitchCase="4" class="btn btn-success">EXITOSO</span>
                                             <span *ngSwitchCase="9" class="btn btn-danger">FALLIDO</span>
                                             </span>                                            
-                                        </td>-->
+                                        </td>
                                     </tr>
                                 </tbody>
                             </table>

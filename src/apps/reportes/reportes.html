@@ -25,14 +25,15 @@
                         <option value="0">TODOS</option>
                         <option *ngFor="let e of distritos" value="{{ e.CCDI }}">{{ e.DISTRITO }}</option>
                     </select>
-                </div> 
+                </div>
                 <div class="form-group">
                     <select class="form-control" name="reportes" (change)="elegirReporte($event.target.value)">
                         <option value="0">FRECUENCIA DE AUEs POR VIVIENDAS</option>
-                        <option value="1">PROMEDIO DE VIVIENDAS Y MANZANAS POR AEU</option>                                                
+                        <option value="1">PROMEDIO DE VIVIENDAS Y MANZANAS POR AEU</option>
+                        <option value="2">MARCO DE ZONAS, SECCIONES, AEUS, MANZANAS Y VIVIENDAS</option>                                                
                     </select>
-                </div>               
-            </form>            
+                </div>
+            </form>
         </section>
     </div>
 </div>
@@ -41,48 +42,50 @@
     <div class="col-lg-12">
         <section class="widget">
             <h2 align="center"> INFORMACIÓN DEL DISTRITO </h2>
-            <table *ngIf="reporte01" class="table table-bordered table-lg mt-lg mb-0" id="reporte01_tabla">
-                <thead>
-                    <tr>
-                        <th width="12%">VIVIENDAS. X AEU</th>
-                        <th width="12%">FRECUENCIA DE AEUs.</th>
-                        <th width="11%">%</th>
-                        <th width="11%">% ACUMULADO</th>                        
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr *ngFor="let re of datareporte01">
-                        <td>{{re.VIVIENDAS_AEU}}</td>
-                        <td>{{re.FRECUENCIA}}</td>
-                        <td>{{re.P_FRECUENCIA}}</td>
-                        <td>{{re.P_FRECUENCIA_ACUMULADA}}</td>                        
-                    </tr>
-                </tbody>
-            </table>
-            <table *ngIf="reporte02" class="table table-bordered table-lg mt-lg mb-0" id="reporte02_tabla">
-                <thead>
-                    <tr>
-                        <th width="12%">ZONA N°</th>
-                        <th width="12%">N° SECCIONES</th>
-                        <th width="11%">N° AEU</th>
-                        <th width="11%">N° MZ.</th>
-                        <th width="11%">N° VIV.</th>
-                        <th width="11%">PROM. DE VIV. x AEU</th>
-                        <th width="11%">PROM. DE MZ. x AEU</th>                        
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr *ngFor="let re1 of datareporte02">
-                        <td>{{re1.ZONA}}</td>
-                        <td>{{re1.CANT_SECCIONES}}</td>
-                        <td>{{re1.CANT_AEUS}}</td>
-                        <td>{{re1.CANT_MZS}}</td>                        
-                        <td>{{re1.CANT_VIV}}</td>
-                        <td>{{re1.PROM_VIV_AEU}}</td>
-                        <td>{{re1.PROM_MZS_AEU}}</td>
-                    </tr>
-                </tbody>
-            </table>
+            <form class="navbar-form pull-xs-left" role="search">
+                <div class="form-group">
+                    <div class="input-group input-group-no-border">
+                        <span class="input-group-addon">
+                        <i class="fa fa-search"></i>
+                    </span>
+                        <input #gb type="text" pInputText size="50" class="form-control" placeholder="Buscador Global">
+                    </div>
+                </div>
+            </form>
+            <p-dataTable id="reporte01_tabla" [value]="datareporte01" *ngIf="reporte01" [rows]="10" [paginator]="true" [pageLinks]="3"
+                [rowsPerPageOptions]="[10,20,30]" class="table table-bordered table-lg mt-lg mb-0" [globalFilter]="gb">
+                <p-column field="VIVIENDAS_AEU" header="VIVIENDAS x AEU" [sortable]="true"></p-column>
+                <p-column field="FRECUENCIA" header="FRECUENCIA DE AEUs" [sortable]="true"></p-column>
+                <p-column field="P_FRECUENCIA" header="%" [sortable]="true"></p-column>
+                <p-column field="P_FRECUENCIA_ACUMULADA" header="% ACUMULADO" [sortable]="true"></p-column>
+            </p-dataTable>
+
+            <p-dataTable id="reporte02_tabla" [value]="datareporte02" *ngIf="reporte02" [rows]="10" [paginator]="true" [pageLinks]="3"
+                [rowsPerPageOptions]="[10,20,30]" class="table table-bordered table-lg mt-lg mb-0" [globalFilter]="gb">
+                <p-column field="ZONA" header="ZONA N°" [sortable]="true"></p-column>
+                <p-column field="CANT_SECCIONES" header="N° SECCIONES" [sortable]="true"></p-column>
+                <p-column field="CANT_AEUS" header="N° AEU" [sortable]="true"></p-column>
+                <p-column field="CANT_MZS" header="N° MZ." [sortable]="true"></p-column>
+                <p-column field="CANT_VIV" header="N° VIV." [sortable]="true"></p-column>
+                <p-column field="PROM_VIV_AEU" header="PROM. DE VIV. x AEU" [sortable]="true"></p-column>
+                <p-column field="PROM_MZS_AEU" header="PROM. DE MZ. x AEU" [sortable]="true"></p-column>
+            </p-dataTable>
+
+            <p-dataTable id="reporte03_tabla" [value]="datareporte03" *ngIf="reporte03" [rows]="10" [paginator]="true" [pageLinks]="3"
+                [rowsPerPageOptions]="[10,20,30]" class="table table-bordered table-lg mt-lg mb-0" [globalFilter]="gb">
+                <p-column field="UBIGEO" header="UBIGEO" [sortable]="true"></p-column>
+                <p-column field="DEPARTAMENTO" header="DEPARTAMENTO" [sortable]="true"></p-column>
+                <p-column field="PROVINCIA" header="PROVINCIA" [sortable]="true"></p-column>
+                <p-column field="DISTRITO" header="DISTRITO." [sortable]="true"></p-column>
+                <p-column field="ZONA" header="ZONA N°" [sortable]="true"></p-column>
+                <p-column field="CANT_SECCIONES" header="SECCIÓN N°" [sortable]="true"></p-column>
+                <p-column field="CANT_AEUS" header="AEU N°" [sortable]="true"></p-column>
+                <p-column field="MANZANA" header="MANZANA N°" [sortable]="true"></p-column>
+                <p-column field="CANT_VIV" header="N° DE VIVIENDAS POR MANZANA" [sortable]="true"></p-column>
+                <p-column field="PROM_VIV_AEU" header="N° DE VIVIENDAS POR AEU" [sortable]="true"></p-column>
+                <p-column field="PROM_MZS_AEU" header="PROMEDIO DE VIVIENDAS POR AEU" [sortable]="true"></p-column>
+            </p-dataTable>
+
         </section>
     </div>
 </div>
