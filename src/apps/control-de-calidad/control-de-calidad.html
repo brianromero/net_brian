@@ -36,15 +36,32 @@
                     <label for="lZona"><h5> ZONA</h5></label>
                     <select class="form-control" name="zonas" (change)="cargarAeu($event.target.value)">
                         <option value="0">TODOS</option>
-                        <option *ngFor="let er of zonas" value="{{ er.zona }}">{{ er.zona }}</option>
+                        <option *ngFor="let er of zonas" value="{{ er.UBIGEO }}">{{ er.ZONA }}</option>
                     </select>
+                </div>
+                <div class="form-group">
+                    <div *ngIf="verZonaPrevia" class="dropdown">
+                        <button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenu5" data-toggle="dropdown" aria-haspopup="true"
+                            aria-expanded="false"> RECHAZAR
+                            </button>
+                        <div class="dropdown-menu" aria-labelledby="dropdownMenu5">
+                            <a class="dropdown-item">RECHAZAR CARTOGRAFÍA</a>
+                            <a class="dropdown-item">RECHAZAR SEGMENTACIÓN</a>
+                            <a class="dropdown-item">RECHAZAR CROQUIS Y LISTADOS</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div *ngIf="verZonaPrevia" class="dropdown">
+                        <button class="btn btn-primary" type="button"> VALIDAR </button>
+                    </div>
                 </div>
             </form>
 
             <form action="" class="inline">
                 <div class="col-md-12" align="left">
                     <hr style="color: black; background-color: black; width:100%;" />
-                    <a class="btn btn-default" (click)="descargarExcel('tablaSeg', 'SEGMENTACION')">EXCEL <i class="fa fa-download"></i></a>
+                    <a class="btn btn-primary" (click)="descargarExcel('tablaSeg', 'SEGMENTACION')">EXCEL <i class="fa fa-download"></i></a>
                 </div>
             </form>
         </section>
@@ -59,8 +76,8 @@
                     <div class="form-group">
                         <div class="input-group input-group-no-border">
                             <span class="input-group-addon">
-                        <i class="fa fa-search"></i>
-                    </span>
+                                <i class="fa fa-search"></i>
+                            </span>
                             <input #gb type="text" pInputText size="50" class="form-control" placeholder="Buscador Global">
                         </div>
                     </div>
@@ -73,6 +90,7 @@
                     <p-column field="ZONA" header="ZONA" [sortable]="true"></p-column>
                     <p-column field="NUM_SEC" header="NRO. DE SECCIONES" [sortable]="true"></p-column>
                     <p-column field="NUM_AEU" header="NRO. DE AEUs" [sortable]="true"></p-column>
+                    <p-column field="EST_CONT" header="NRO. DE ZONAS OBSERVADAS" [sortable]="true"></p-column>
                     <p-column field="EST_CONT" styleClass="col-button" header="ESTADO">
                         <template let-col let-car="rowData" pTemplate type="body">
                             <span [ngSwitch]="car[col.field]">                                
@@ -86,6 +104,7 @@
                             <button (click)="getRegistro(0)" class="btn btn-primary" data-toggle="modal" data-target=".bd-example-modal-lg"><i class="fa fa-pencil"></i></button>
                         </template>
                     </p-column>
+                    <p-column *ngIf="verZonaPrevia" [style]="{'width':'38px'}" selectionMode="multiple">VALIDAR</p-column>
                 </p-dataTable>
             </div>
         </section>
@@ -99,11 +118,11 @@
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
-                <h4 align="center" class="modal-title" id="myModalLabel">CROQUIS Y LISTADO</h4>
+                <h4 align="center" class="modal-title" id="myModalLabel">CONTROL DE CALIDAD</h4>
             </div>
             <div class="modal-body">
-                <div class="row">
-                    <div class="col-lg-12">
+                <div class="row" style="height: 850px;">
+                    <div class="col-md-3" style="overflow-y:scroll;">
                         <section class="widget">
                             <form class="form-inline">
                                 <div class="form-group">
@@ -113,14 +132,10 @@
                                         <option value="1">SECCIÓN</option>
                                         <option value="2">EMPADRONADOR</option>                        
                                     </select>
-                                    <a class="btn btn-default" [href]=urlCroquis download> PDF  <i class="fa fa-download"> </i></a>
+                                    <a class="btn btn-primary" [href]=urlCroquis download> PDF  <i class="fa fa-download"> </i></a>
                                 </div>
                             </form>
                         </section>
-                    </div>
-                </div>
-                <div class="row" style="height: 700px;">
-                    <div class="col-md-2" style="overflow-y:scroll;">
                         <section class="widget">
                             <table class="table table-bordered table-lg mt-lg mb-0" id="tablaCroAux" class="scroll">
                                 <thead>
@@ -144,17 +159,31 @@
                                             <span *ngSwitchCase="3" class="btn btn-primary">EN PROCESO</span>
                                             <span *ngSwitchCase="4" class="btn btn-success">EXITOSO</span>
                                             <span *ngSwitchCase="9" class="btn btn-danger">FALLIDO</span>
-                                            </span>                                            
+                                            </span>
                                         </td>
                                     </tr>
                                 </tbody>
                             </table>
                         </section>
                     </div>
-                    <div class="col-md-10">
-                        <object id="object" [data]=urlCroquis type="application/pdf" width="100%" height="100%">
+                    <div class="col-md-9">
+                        <object id="object" [data]=urlCroquis type="application/pdf" width="100%" height="85%">
                                 alt : <a [href]=urlCroquis>test.pdf</a>
                         </object>
+                        <!--<form action="" class="inline">-->
+                            <i class="fa fa-pencil prefix">Observaciones:</i>
+                            <textarea style="width: 600px;" class="form-control"></textarea>
+                            <button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenu5" data-toggle="dropdown" aria-haspopup="true"
+                                aria-expanded="false"> RECHAZAR
+                            </button>
+                            <div class="dropdown-menu" aria-labelledby="dropdownMenu5">
+                                <a class="dropdown-item">RECHAZAR CARTOGRAFÍA</a>
+                                <a class="dropdown-item">RECHAZAR SEGMENTACIÓN</a>
+                                <a class="dropdown-item">RECHAZAR CROQUIS Y LISTADOS</a>
+                            </div>
+                            <button class="btn btn-primary" type="button"> VALIDAR </button>
+                            <button class="btn btn-primary" type="button"> GUARDAR OBSERVACIÓN </button>
+                        <!--</form>-->
                     </div>
                 </div>
             </div>

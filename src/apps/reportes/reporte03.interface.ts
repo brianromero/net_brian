@@ -5,11 +5,11 @@ export class Reporte03Interface {
         public provincia : string = '',
         public distrito : string = '',
         public zona : string = '',
-        public cant_secciones : string = '',
-        public cant_aeus : string = '',
+        public seccion : string = '',
+        public aeu_final : string = '',
         public manzana : string = '',
-        public cant_viv : string = '',
-        public prom_viv_aeu : string = '',
-        public prom_mzs_aeu : string = ''
+        public cant_viv_mzs : string = '',
+        public cant_viv_aeu : string = '',
+        public prom_viv_aeu : string = ''
     ){}
 }

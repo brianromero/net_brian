@@ -71,6 +71,7 @@ class Controldecalidad {
   private seccionAux: boolean = false;
   private aeuAux: boolean = false;
   private abc: boolean=true;
+  private verZonaPrevia: boolean=false;
   private tablaaa:any;
   private tablaaa1:any;
   private registros2: Object;
@@ -108,6 +109,7 @@ class Controldecalidad {
     this.ccdd = ccdd;
     this.distrito=false;
     this.verZona=false;
+    this.verZonaPrevia=false;
     if(this.ccdd!=0){
       this.controldecalidadservice.getProvincias(ccdd, ccpp).subscribe(res => {
         this.provincias = < ProvinciaInterface > res;
@@ -125,6 +127,7 @@ class Controldecalidad {
     this.ccpp=ccpp;
     this.distrito=false;
     this.verZona=false;
+    this.verZonaPrevia=false;
     if(this.ccpp!=0){
       this.controldecalidadservice.getDistritos(this.ccdd, ccpp,"0").subscribe(res => {
         this.distritos = < DistritoInterface > res;
@@ -146,12 +149,14 @@ class Controldecalidad {
       this.controldecalidadservice.getZonas(ubigeo).subscribe(res => {
         this.zonas = < ZonaInterface > res;
       })
+      this.verZonaPrevia=true;
       this.cargarTabla("3",this.ccdd,this.ccpp,this.ccdi,"0")
     }else{
       this.zonas=null;
       this.distrito=false;
+      this.verZonaPrevia=false;
       this.cargarTabla("2",this.ccdd,this.ccpp,"0","0")
-    }
+    }    
   }
 
   cargarAeu(zona: string) {
@@ -168,7 +173,6 @@ class Controldecalidad {
   cargarTabla(tipo: string, ccdd: string, ccpp: string, ccdi: string, zona: string){
     this.controldecalidadservice.getTabla(tipo, ccdd, ccpp, ccdi, zona).subscribe(res => {
       this.registros= < RegistroInterface > res;
-      console.log(this.registros);
     })
   }
 

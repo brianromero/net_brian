@@ -36,7 +36,7 @@
                     <label for="lZona"><h5> ZONA</h5></label>
                     <select class="form-control" name="zonas" (change)="cargarAeu($event.target.value)">
                         <option value="0">TODOS</option>
-                        <option *ngFor="let er of zonas" value="{{ er.zona }}">{{ er.zona }}</option>
+                        <option *ngFor="let er of zonas" value="{{ er.UBIGEO }}">{{ er.ZONA }}</option>
                     </select>
                 </div>
             </form>
@@ -47,7 +47,7 @@
                 </div>
                 <div class="col-md-12" align="left">
                     <hr style="color: black; background-color: black; width:100%;" />
-                    <a class="btn btn-default" (click)="descargarExcel('tablaSeg', 'SEGMENTACION')">EXCEL <i class="fa fa-download"></i></a>
+                    <a class="btn btn-primary" (click)="descargarExcel('tablaSeg', 'SEGMENTACION')">EXCEL <i class="fa fa-download"></i></a>
                 </div>
             </form>
         </section>

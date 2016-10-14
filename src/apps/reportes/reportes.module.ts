@@ -30,6 +30,12 @@ import {
   Reporte03Interface
 } from './reporte03.interface';
 import {
+  Reporte04Interface
+} from './reporte04.interface';
+import {
+  Reporte05Interface
+} from './reporte05.interface';
+import {
   ZonaInterface
 } from './zona.interface';
 import {
@@ -45,10 +51,9 @@ import {Helpers} from './../../app/helper';
 import {
   RegistroInterface
 } from './registro.interface';
-import 'jszip';
 import {DomSanitizer} from "@angular/platform-browser";
 import {DataTableModule,SharedModule,ButtonModule} from 'primeng/primeng';
-declare var jQuery;
+
 
 
 @Component({
@@ -89,13 +94,17 @@ class Reportes {
   private reporte01: boolean=true;
   private reporte02: boolean=false;
   private reporte03: boolean=false;
-
+  private reporte04: boolean=false;
+  private reporte05: boolean=false;
+  
   private tipo: string='';    
 
   private datareporte01: Reporte01Interface;  
   private datareporte02: Reporte02Interface;
   private datareporte03: Reporte03Interface;
-  
+  private datareporte04: Reporte04Interface;
+  private datareporte05: Reporte05Interface;
+
   constructor(private reportes: ReportesService, private elementRef: ElementRef, private domSanitizer: DomSanitizer) {
     this.cargarDepa()
     this.registro = this.model
@@ -116,6 +125,8 @@ class Reportes {
     this.datareporte01=null;
     this.datareporte02=null;
     this.datareporte03=null;
+    this.datareporte04=null;
+    this.datareporte05=null;
     if (this.ccdd != 0) {
         this.reportes.getProvincias(ccdd, ccpp).subscribe(res => {
         this.provincias = <ProvinciaInterface>res;
@@ -134,6 +145,8 @@ class Reportes {
     this.datareporte01=null;
     this.datareporte02=null;
     this.datareporte03=null;
+    this.datareporte04=null;
+    this.datareporte05=null;
     if (this.ccpp != 0) {
       this.reportes.getDistritos(this.ccdd, ccpp, "0").subscribe(res => {
         this.distritos = <DistritoInterface>res;
@@ -181,6 +194,12 @@ class Reportes {
       if(this.reporte03){
         this.datareporte03 = <Reporte03Interface>res;
       }
+      if(this.reporte04){
+        this.datareporte04 = <Reporte04Interface>res;
+      }
+      if(this.reporte05){
+        this.datareporte05 = <Reporte05Interface>res;
+      }
     })
   }
 
@@ -193,16 +212,36 @@ class Reportes {
       this.reporte01=true;
       this.reporte02=false;
       this.reporte03=false;
+      this.reporte04=false;
+      this.reporte05=false;
     }
     if(reporte=="1"){
       this.reporte01=false;
       this.reporte02=true;
       this.reporte03=false;
+      this.reporte04=false;
+      this.reporte05=false;
     }
     if(reporte=="2"){
       this.reporte01=false;
       this.reporte02=false;
       this.reporte03=true;
+      this.reporte04=false;
+      this.reporte05=false;
+    }
+    if(reporte=="3"){
+      this.reporte01=false;
+      this.reporte02=false;
+      this.reporte03=false;
+      this.reporte04=true;
+      this.reporte05=false;
+    }
+    if(reporte=="4"){
+      this.reporte01=false;
+      this.reporte02=false;
+      this.reporte03=false;
+      this.reporte04=false;
+      this.reporte05=true;
     }
     this.cargarTabla(this.ccdi);
   }
